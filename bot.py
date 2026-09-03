@@ -57,8 +57,8 @@ TRANSCRIPT_CHANNEL_ID = 1544932768549699644
 # APPLICATION SETTINGS
 # ============================================================
 
-APPLICATION_ROLE_ID = 1541096476610928730
-RESULT_CHANNEL_ID = 1541096707985637496
+APPLICATION_ROLE_ID = 1544932566996615259
+RESULT_CHANNEL_ID = 1544932745338290226
 
 PINK = discord.Color.from_rgb(255, 105, 180)
 
@@ -332,11 +332,11 @@ class ApplicationView(discord.ui.View):
                 f"✅ {member.mention} has been accepted "
                 f"and received {role.mention}."
             ),
-            color=PINK
+            color=0x6A0DAD
         )
 
         application_embed.set_footer(
-            text="Minstrea ~ MM service • Application System"
+            text="TradeVault • Application System"
         )
 
         await interaction.response.edit_message(
@@ -372,7 +372,7 @@ class ApplicationView(discord.ui.View):
                 "• Lastly to get a middleman for your trades "
                 "do a ticket in the middleman channel"
             ),
-            color=PINK
+            color=0x6A0DAD
         )
 
         welcome_embed.set_thumbnail(
@@ -380,7 +380,7 @@ class ApplicationView(discord.ui.View):
         )
 
         welcome_embed.set_footer(
-            text="Minstrea ~ MM service • New Flopper"
+            text="TradeVault • New Flopper"
         )
 
         await result_channel.send(
@@ -451,7 +451,7 @@ class ApplicationView(discord.ui.View):
         )
 
         embed.set_footer(
-            text="Minstrea ~ MM service • Application System"
+            text="TradeVault • Application System"
         )
 
         await interaction.response.edit_message(
@@ -509,7 +509,7 @@ async def trigger(
             "Choose whether you want to accept or decline "
             "the offer below.\n\n"
         ),
-        color=PINK
+        color=0x6A0DAD
     )    
 
     note_embed = discord.Embed(
@@ -519,7 +519,7 @@ async def trigger(
             "or **Decline** the offer presented above. "
             "Choose wisely, the clock is ticking.."
         ),
-        color=PINK
+        color=0x6A0DAD
     )
 
     view = ApplicationView(member.id)
@@ -1243,9 +1243,9 @@ async def profile(
     embed = discord.Embed(
         title=f"👤 User Profile • {member.display_name}",
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -2640,9 +2640,9 @@ async def claim(ctx):
                 f"{ctx.author.mention}."
             ),
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -2797,9 +2797,9 @@ async def unclaim(ctx):
                 "this ticket."
             ),
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -2989,9 +2989,9 @@ async def transferticket(
                 f"{member.mention}."
             ),
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -3154,9 +3154,9 @@ async def add_user(
                 "this ticket."
             ),
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -3291,9 +3291,9 @@ async def close_ticket(ctx):
                 "The channel will be deleted in **5 seconds**."
             ),
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -4287,9 +4287,9 @@ async def dm_command(
         title="📩 Message from the Server",
         description=message,
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -4445,9 +4445,9 @@ async def massdm_command(
     embed = discord.Embed(
         title="📨 Mass DM Finished",
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -4536,9 +4536,9 @@ async def help_command(ctx):
             "by members with the required permissions."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -4643,7 +4643,16 @@ async def help_command(ctx):
     ),
     inline=False
 )
-    
+
+    embed.add_field(
+    name="🔧 Others",
+    value=(
+        "`$say` — Send a custom message through the bot\n"
+        "`$afk` — Set an AFK status with an optional reason"
+    ),
+    inline=false
+    )
+
     if ctx.guild.icon:
 
         embed.set_thumbnail(
@@ -4924,9 +4933,9 @@ async def snipe(ctx, number: int = 1):
     embed = discord.Embed(
         description=content,
         color=discord.Color.from_rgb(
-            255,
-            105,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -5116,7 +5125,7 @@ async def afk(ctx, *, reason: str = "AFK"):
             f"{reason}\n\n"
             f"*You will be marked as AFK until you send a message.*"
         ),
-        color=discord.Color.from_rgb(255, 105, 180)
+        color=discord.Color.from_rgb(90, 24, 150)
     )
 
     embed.set_footer(text="Minstrea")
@@ -5140,10 +5149,10 @@ async def afk_handler(message):
                 f"Welcome back, {message.author.mention}!\n\n"
                 f"You are no longer AFK."
             ),
-            color=discord.Color.from_rgb(255, 105, 180)
+            color=discord.Color.from_rgb(90, 25, 150)
         )
 
-        embed.set_footer(text="Minstrea")
+        embed.set_footer(text="TradeVault")
 
         await message.channel.send(embed=embed)
 
@@ -5162,10 +5171,10 @@ async def afk_handler(message):
                     f"📌 **Reason**\n"
                     f"{reason}"
                 ),
-                color=discord.Color.from_rgb(255, 105, 180)
+                color=discord.Color.from_rgb(90, 24, 150)
             )
 
-            embed.set_footer(text="Minstrea")
+            embed.set_footer(text="TradeVault")
 
             await message.channel.send(embed=embed)
 
