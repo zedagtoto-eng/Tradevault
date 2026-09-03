@@ -738,9 +738,9 @@ async def removevouch(
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -826,9 +826,9 @@ async def vouches_command(
     embed = discord.Embed(
         title="⭐ Vouches",
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -1754,9 +1754,9 @@ async def temp(ctx):
             f"{member.mention} has been temporarily demoted."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -1822,15 +1822,15 @@ async def temp_error(ctx, error):
 
 
 # ============================================================
-# $CANCELTEMP
+# $UNTEMP
 # ============================================================
 
-@bot.command(name="canceltemp")
+@bot.command(name="untemp")
 async def canceltemp(ctx):
 
     allowed_role_ids = [
-        1541096480146853968,
-        1541096476610928730
+        1544932566996615259,
+        1544932570226106418
     ]
 
     has_temp_permission = any(
@@ -1842,7 +1842,7 @@ async def canceltemp(ctx):
 
         return await ctx.send(
             "❌ You need one of the required roles to use "
-            "`$canceltemp`."
+            "`$untemp`."
         )
 
     if not ctx.guild.me.guild_permissions.manage_roles:
@@ -1927,9 +1927,9 @@ async def canceltemp(ctx):
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -3726,8 +3726,8 @@ async def transferroles(
     # ========================================================
 
     KEEP_ROLE_IDS = [
-        1541096476610928730,
-        1541096480146853968
+        1544932566996615259,
+        1544932570226106418
     ]
 
     member = await get_member(
@@ -3845,9 +3845,9 @@ async def transferroles(
             f"{source.mention} to {member.mention}."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -3911,7 +3911,7 @@ async def transferroles(
     )
 
     embed.set_footer(
-        text="Minstrea ~ MM service • Role Transfer"
+        text="Tradevault • Role Transfer"
     )
 
     await ctx.send(
@@ -4576,7 +4576,7 @@ async def help_command(ctx):
         name="⏸️ Temporary Role Commands",
         value=(
             "`$temp` — Temporarily remove roles\n"
-            "`$canceltemp` — Restore saved roles"
+            "`$untemp` — Restore saved roles"
         ),
         inline=False
     )
@@ -4643,15 +4643,6 @@ async def help_command(ctx):
     ),
     inline=False
 )
-
-    embed.add_field(
-    name="🔧 Others",
-    value=(
-        "`$say` — Send a custom message through the bot\n"
-        "`$afk` — Set an AFK status with an optional reason"
-    ),
-    inline=false
-    )
 
     if ctx.guild.icon:
 
