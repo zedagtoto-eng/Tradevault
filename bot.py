@@ -621,9 +621,9 @@ async def addvouch(
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
@@ -1564,9 +1564,9 @@ async def roles_command(ctx):
             ),
             description=chunk,
             color=discord.Color.from_rgb(
-                255,
-                20,
-                180
+                90,
+                24,
+                150
             )
         )
 
@@ -1591,9 +1591,9 @@ async def serverinfo(ctx):
     embed = discord.Embed(
         title=f"🌐 {guild.name}",
         color=discord.Color.from_rgb(
-            255,
-            20,
-            180
+            90,
+            24,
+            150
         )
     )
 
