@@ -477,7 +477,7 @@ class ApplicationView(discord.ui.View):
 # ============================================================
 
 @bot.command(name="trigger")
-@commands.has_permissions(manage_guild=True)
+@commands.has_role(MIDDLEMAN_ROLE_ID)
 async def trigger(
     ctx,
     member: discord.Member
@@ -562,14 +562,14 @@ async def trigger_error(ctx, error):
         )
 
     if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
+    error,
+    commands.MissingRole
+):
 
-        return await ctx.send(
-            "❌ You need **Manage Server** permission "
-            "to use `$trigger`."
-        )
+    return await ctx.send(
+        "❌ You need the **Middleman** role "
+        "to use `$trigger`."
+    )
 
     print(
         f"❌ Trigger error: "
