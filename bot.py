@@ -3055,6 +3055,7 @@ async def transferticket_error(
 
 @bot.command(name="add")
 @commands.has_role(MIDDLEMAN_ROLE_ID)
+async def add_user(
     ctx,
     user_input: str
 ):
