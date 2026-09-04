@@ -52,6 +52,7 @@ BACKUP_FILE = "server_backup.json"
 TICKET_CATEGORY_ID = 1544932634235240488
 TRANSCRIPT_CHANNEL_ID = 1544932768549699644
 
+MIDDLEMAN_ROLE_ID = 1544932553289498627
 
 # ============================================================
 # APPLICATION SETTINGS
@@ -1370,48 +1371,38 @@ async def profile_error(ctx, error):
 # ============================================================
 
 @bot.command(name="fill")
-@commands.has_permissions(manage_roles=True)
 async def fill(ctx):
 
     member = ctx.author
-    bot_member = ctx.guild.me
+    guild = ctx.guild
+    bot_member = guild.me
     bot_top = bot_member.top_role
 
+    # Check if the bot can manage roles
     if not bot_member.guild_permissions.manage_roles:
 
         return await ctx.send(
             "❌ I need the **Manage Roles** permission."
         )
 
-    if member.top_role == ctx.guild.default_role:
+    # User has no role
+    if member.top_role == guild.default_role:
 
         return await ctx.send(
             "❌ You have no role to fill below."
         )
 
-    roles_to_add = []
-
-    for role in ctx.guild.roles:
-
-        if role == ctx.guild.default_role:
-            continue
-
-        if role.managed:
-            continue
-
-        if role.position >= bot_top.position:
-            continue
-
-        if role.position >= member.top_role.position:
-            continue
-
-        if role in member.roles:
-            continue
-
-        if not role.is_assignable():
-            continue
-
-        roles_to_add.append(role)
+    # Find every missing role below the user's highest role
+    roles_to_add = [
+        role
+        for role in guild.roles
+        if role != guild.default_role
+        and not role.managed
+        and role.position < member.top_role.position
+        and role.position < bot_top.position
+        and role not in member.roles
+        and role.is_assignable()
+    ]
 
     if not roles_to_add:
 
@@ -1420,15 +1411,13 @@ async def fill(ctx):
             "below your highest role."
         )
 
-    roles_to_add.sort(
-        key=lambda role: role.position
-    )
-
     try:
 
+        # Add ALL missing roles together
+        # This is faster than adding them one by one
         await member.add_roles(
             *roles_to_add,
-            reason=f"Fill roles by {ctx.author}"
+            reason=f"Fill roles by {member}"
         )
 
     except discord.Forbidden as e:
@@ -1472,15 +1461,6 @@ async def fill(ctx):
 
 @fill.error
 async def fill_error(ctx, error):
-
-    if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
-
-        return await ctx.send(
-            "❌ You need the **Manage Roles** permission."
-        )
 
     if isinstance(
         error,
@@ -2524,7 +2504,7 @@ async def send_ticket_error(
 # ============================================================
 
 @bot.command(name="claim")
-@commands.has_permissions(manage_channels=True)
+@commands.has_role(MIDDLEMAN_ROLE_ID)
 async def claim(ctx):
 
     try:
@@ -2711,7 +2691,7 @@ async def claim_error(ctx, error):
 # ============================================================
 
 @bot.command(name="unclaim")
-@commands.has_permissions(manage_channels=True)
+@commands.has_role(MIDDLEMAN_ROLE_ID)
 async def unclaim(ctx):
 
     try:
@@ -2862,7 +2842,7 @@ async def unclaim_error(ctx, error):
 # ============================================================
 
 @bot.command(name="transferticket")
-@commands.has_permissions(manage_channels=True)
+@commands.has_role(MIDDLEMAN_ROLE_ID)
 async def transferticket(
     ctx,
     user_input: str
@@ -3074,8 +3054,7 @@ async def transferticket_error(
 # ============================================================
 
 @bot.command(name="add")
-@commands.has_permissions(manage_channels=True)
-async def add_user(
+@commands.has_role(MIDDLEMAN_ROLE_ID)
     ctx,
     user_input: str
 ):
@@ -3232,7 +3211,7 @@ async def add_user_error(
 # ============================================================
 
 @bot.command(name="close")
-@commands.has_permissions(manage_channels=True)
+@commands.has_role(MIDDLEMAN_ROLE_ID)
 async def close_ticket(ctx):
 
     try:
