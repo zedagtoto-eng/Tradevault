@@ -562,13 +562,13 @@ async def trigger_error(ctx, error):
         )
 
     if isinstance(
-    error,
-    commands.MissingRole
+        error,
+        commands.MissingRole
 ):
 
-    return await ctx.send(
-        "❌ You need the **Middleman** role "
-        "to use `$trigger`."
+        return await ctx.send(
+            "❌ You need the **Middleman** role "
+            "to use `$trigger`."
     )
 
     print(
