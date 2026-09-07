@@ -52,7 +52,7 @@ BACKUP_FILE = "server_backup.json"
 TICKET_CATEGORY_ID = 1544932634235240488
 TRANSCRIPT_CHANNEL_ID = 1544932768549699644
 
-MIDDLEMAN_ROLE_ID = 1544932553289498627
+MIDDLEMAN_ROLE_ID = 1546483104598982656
 
 # ============================================================
 # APPLICATION SETTINGS
@@ -69,8 +69,8 @@ PINK = discord.Color.from_rgb(255, 105, 180)
 # ============================================================
 
 TEMP_KEEP_ROLE_IDS = [
-    1544932570226106418,
-    1544932566996615259
+    1546483121820794950,
+    1546483118045659231
 ]
 
 
@@ -5152,7 +5152,7 @@ async def afk_handler(message):
 @bot.command(name="say")
 async def say(ctx, *, message: str = None):
 
-    OWNER_ROLE_ID = 1544932491419189260  # PUT OWNER ROLE ID HERE
+    OWNER_ROLE_ID = 1546483040371474472  # PUT OWNER ROLE ID HERE
 
     if not any(role.id == OWNER_ROLE_ID for role in ctx.author.roles):
         return await ctx.send(
