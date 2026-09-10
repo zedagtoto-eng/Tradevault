@@ -867,23 +867,31 @@ async def vouches_command(
 async def role_command(
     ctx,
     member: discord.Member,
-    role: discord.Role
+    *,
+    role_name: str
 ):
+    # Find role by name (case-insensitive)
+    role = discord.utils.find(
+        lambda r: r.name.lower() == role_name.lower(),
+        ctx.guild.roles
+    )
+
+    if role is None:
+        return await ctx.send(
+            f"❌ Role `{role_name}` not found."
+        )
 
     if role == ctx.guild.default_role:
-
         return await ctx.send(
             "❌ You cannot give the @everyone role."
         )
 
     if role.managed:
-
         return await ctx.send(
             "❌ You cannot manually assign a managed role."
         )
 
     if role >= ctx.guild.me.top_role:
-
         return await ctx.send(
             "❌ I cannot give that role because it is equal to "
             "or higher than my highest role."
@@ -893,27 +901,23 @@ async def role_command(
         role >= ctx.author.top_role
         and ctx.author != ctx.guild.owner
     ):
-
         return await ctx.send(
             "❌ You cannot manage a role equal to or higher "
             "than your highest role."
         )
 
     if role in member.roles:
-
         return await ctx.send(
             f"❌ {member.mention} already has {role.mention}."
         )
 
     try:
-
         await member.add_roles(
             role,
             reason=f"Role command used by {ctx.author}"
         )
 
     except discord.Forbidden:
-
         return await ctx.send(
             "❌ I don't have permission to give that role."
         )
@@ -926,177 +930,24 @@ async def role_command(
 @role_command.error
 async def role_error(ctx, error):
 
-    if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
-
+    if isinstance(error, commands.MissingPermissions):
         return await ctx.send(
             "❌ You need the **Manage Roles** permission."
         )
 
-    elif isinstance(
-        error,
-        commands.MissingRequiredArgument
-    ):
-
+    elif isinstance(error, commands.MissingRequiredArgument):
         return await ctx.send(
-            "❌ Usage: `$role @user @role`"
+            "❌ Usage: `$role @user Role Name`"
         )
 
-    elif isinstance(
-        error,
-        commands.BadArgument
-    ):
-
+    elif isinstance(error, commands.MemberNotFound):
         return await ctx.send(
-            "❌ Usage: `$role @user @role`"
+            "❌ I couldn't find that user."
         )
 
-
-# ============================================================
-# $PROMO @USER
-# ============================================================
-
-@bot.command(name="promo")
-@commands.has_permissions(manage_roles=True)
-async def promo(
-    ctx,
-    member: discord.Member
-):
-
-    if member.bot:
-
+    elif isinstance(error, commands.BadArgument):
         return await ctx.send(
-            "❌ You cannot promote a bot."
-        )
-
-    bot_top = ctx.guild.me.top_role
-
-    manageable_roles = [
-        role
-        for role in ctx.guild.roles
-        if role != ctx.guild.default_role
-        and not role.managed
-        and role < bot_top
-    ]
-
-    manageable_roles.sort(
-        key=lambda r: r.position
-    )
-
-    current_manageable = [
-        role
-        for role in member.roles
-        if role in manageable_roles
-    ]
-
-    if not current_manageable:
-
-        next_role = (
-            manageable_roles[0]
-            if manageable_roles
-            else None
-        )
-
-    else:
-
-        highest_current = max(
-            current_manageable,
-            key=lambda r: r.position
-        )
-
-        higher_roles = [
-            role
-            for role in manageable_roles
-            if role.position > highest_current.position
-        ]
-
-        next_role = (
-            min(
-                higher_roles,
-                key=lambda r: r.position
-            )
-            if higher_roles
-            else None
-        )
-
-    if next_role is None:
-
-        return await ctx.send(
-            f"❌ {member.mention} cannot be promoted any further."
-        )
-
-    if (
-        next_role >= ctx.author.top_role
-        and ctx.author != ctx.guild.owner
-    ):
-
-        return await ctx.send(
-            "❌ You cannot promote someone to a role equal to "
-            "or higher than your highest role."
-        )
-
-    remove_roles = [
-        role
-        for role in current_manageable
-        if role.position < next_role.position
-    ]
-
-    try:
-
-        if remove_roles:
-
-            await member.remove_roles(
-                *remove_roles,
-                reason=f"Promotion by {ctx.author}"
-            )
-
-        await member.add_roles(
-            next_role,
-            reason=f"Promotion by {ctx.author}"
-        )
-
-    except discord.Forbidden:
-
-        return await ctx.send(
-            "❌ I don't have permission to manage these roles."
-        )
-
-    await ctx.send(
-        f"⬆️ {member.mention} has been promoted to "
-        f"{next_role.mention}."
-    )
-
-
-@promo.error
-async def promo_error(ctx, error):
-
-    if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
-
-        await ctx.send(
-            "❌ You need the **Manage Roles** permission."
-        )
-
-    elif isinstance(
-        error,
-        commands.MissingRequiredArgument
-    ):
-
-        await ctx.send(
-            "❌ Usage: `$promo @user`"
-        )
-
-    elif isinstance(
-        error,
-        commands.BadArgument
-    ):
-
-        await ctx.send(
-            "❌ Please mention a valid member."
+            "❌ Usage: `$role @user Role Name`"
         )
 
 
