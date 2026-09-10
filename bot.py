@@ -59,7 +59,7 @@ MIDDLEMAN_ROLE_ID = 1546483104598982656
 # ============================================================
 
 APPLICATION_ROLE_ID = 1544932566996615259
-RESULT_CHANNEL_ID = 1544932745338290226
+RESULT_CHANNEL_ID = 1547444944606593066
 
 PINK = discord.Color.from_rgb(255, 105, 180)
 
@@ -69,8 +69,8 @@ PINK = discord.Color.from_rgb(255, 105, 180)
 # ============================================================
 
 TEMP_KEEP_ROLE_IDS = [
-    1546483121820794950,
-    1546483118045659231
+    1546891150177206373,
+    1461242044306685973
 ]
 
 
@@ -5152,7 +5152,7 @@ async def afk_handler(message):
 @bot.command(name="say")
 async def say(ctx, *, message: str = None):
 
-    OWNER_ROLE_ID = 1546483040371474472  # PUT OWNER ROLE ID HERE
+    OWNER_ROLE_ID = 1546888470075670579  # PUT OWNER ROLE ID HERE
 
     if not any(role.id == OWNER_ROLE_ID for role in ctx.author.roles):
         return await ctx.send(
