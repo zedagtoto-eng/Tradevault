@@ -1501,7 +1501,6 @@ async def serverinfo(ctx):
 # ============================================================
 
 @bot.command(name="temp")
-@commands.has_permissions(manage_roles=True)
 async def temp(ctx):
 
     member = ctx.author
