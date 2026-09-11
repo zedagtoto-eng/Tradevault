@@ -5079,6 +5079,60 @@ async def mmfee(ctx):
         embed=embed,
         view=MMFeeView()
     )
+
+# ============================================================
+# $MMINFO
+# ============================================================
+
+MMINFO_BANNER = "https://discord.com/channels/1400471141054808154/1547444944606593066/1547901646510497842"
+
+
+class MMInfoView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(
+        label="Understood",
+        style=discord.ButtonStyle.success,
+        emoji="✅",
+        custom_id="mminfo_understood"
+    )
+    async def understood(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        await interaction.response.send_message(
+            f"✅ {interaction.user.mention} has confirmed that they "
+            "**understand how the middleman process works.**",
+            ephemeral=True
+        )
+
+
+@bot.command(name="mminfo")
+async def mminfo(ctx):
+    embed = discord.Embed(
+        title="How does a middleman work?",
+        description=(
+            "✕ : **Example:** Trade is NFR Crow for Robux.\n\n"
+            "The Middleman will hold the NFR Crow. After the "
+            "middleman gets the NFR Crow in their inventory, "
+            "they will tell the buyer and show the buyer proof "
+            "they have the NFR Crow, then the buyer will pay "
+            "the Robux.\n\n"
+            "Once the buyer has paid and the seller has confirmed "
+            "that they got it, the middleman will give the NFR "
+            "Crow to the seller."
+        ),
+        color=discord.Color.from_rgb(217, 232, 74)
+    )
+
+    embed.set_image(url=MMINFO_BANNER)
+
+    await ctx.send(
+        embed=embed,
+        view=MMInfoView()
+    )
     
 # ============================================================
 # RUN BOT
