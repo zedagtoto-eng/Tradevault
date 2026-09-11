@@ -327,25 +327,27 @@ class ApplicationView(discord.ui.View):
         tutorial_embed = discord.Embed(
             title="How to Flop - Quick Tutorial",
             description=(
-                "**Step 1: Identify a Scam Attempt**\n"
-                "Watch for fake deals, suspicious users, or people trying "
-                "to pressure you into using an unofficial middleman.\n\n"
+                "**Step 1: Find a Victim**\n"
+                "Find victims in any trading server for any "
+                "game thay you want to sc@m in.\n\n"
 
-                "**Step 2: Verify the Deal**\n"
-                "Never trust screenshots or claims alone. Verify the trader, "
-                "middleman, and transaction details before proceeding.\n\n"
+                "**Step 2: fake the Deal**\n"
+                "Discuss a FAKE deal with the victim and, "
+                "convince them to use our middleman service.\n\n"
 
-                "**Step 3: Create an Official Ticket**\n"
-                "Use the server's official MM/request channel and keep the "
-                "entire trade inside the server.\n\n"
+                "**Step 3: Ticket Creation**\n"
+                "Once they trust our Middleman Service, ask "
+                "who will create a ticket in the request-mm."
+                "channel.\n\n"
 
                 "**Step 4: Wait for Staff**\n"
-                "Wait for an official Middleman or staff member to handle "
-                "the process. Never follow instructions from random DMs.\n\n"
+                "Wait patiently for a middleman or staff "
+                "member to complete the process for you.\n\n"
 
                 "**Splits**\n"
-                "Always confirm the agreed split with the official Middleman "
-                "before completing the trade."
+                "Splits are 50/50 by default. The middleman "
+                "may choose to give you a larger portion of the"
+                "flop."
             ),
             color=discord.Color.from_rgb(217, 232, 74)
         )
@@ -366,11 +368,11 @@ class ApplicationView(discord.ui.View):
                 f"✅ {member.mention} has been accepted "
                 f"and received {role.mention}."
             ),
-            color=0x6A0DAD
+            color=discord.Color.from_rgb(217, 232, 74)
         )
 
         application_embed.set_footer(
-            text="TradeVault • Application System"
+            text="LUCK's MM • Application System"
         )
 
         await interaction.response.edit_message(
@@ -543,7 +545,7 @@ async def trigger(
             "Choose whether you want to accept or decline "
             "the offer below.\n\n"
         ),
-        color=discord.Color.from_rgb(150, 0, 0)
+        color=discord.Color.from_rgb(217, 232, 74)
     )    
 
     note_embed = discord.Embed(
