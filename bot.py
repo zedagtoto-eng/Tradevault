@@ -5072,6 +5072,8 @@ async def mmfee(ctx):
         ),
         color=discord.Color.from_rgb(217, 232, 74)
     )
+    
+    embed.set_image(url="https://cdn.discordapp.com/attachments/1547444944606593066/1547897741835767868/image0.gif?ex=6aa5179c&is=6aa3c61c&hm=efba347a12dfddb70d7e61adca1bc7ceec6ab0f8bb15a2fc0b0493bd9e07e0a4&")
 
     await ctx.send(
         embed=embed,
