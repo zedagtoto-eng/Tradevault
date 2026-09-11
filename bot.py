@@ -4442,6 +4442,8 @@ async def help_command(ctx):
             "`$add @user / ID` — Add member to ticket\n"
             "`$close` — Save transcript and close ticket\n"
             "`$transferroles @user` — Transfer roles"
+            "`$mminfo - shows how middleman works"
+            "`$mmfee - shows fee embed"
         ),
         inline=False
     )
@@ -4947,7 +4949,7 @@ async def afk(ctx, *, reason: str = "AFK"):
             f"{reason}\n\n"
             f"*You will be marked as AFK until you send a message.*"
         ),
-        color=discord.Color.from_rgb(150, 0, 0)
+        color=discord.Color.from_rgb(217, 232, 74)
     )
 
     embed.set_footer(text="Minstrea")
@@ -4971,10 +4973,10 @@ async def afk_handler(message):
                 f"Welcome back, {message.author.mention}!\n\n"
                 f"You are no longer AFK."
             ),
-            color=discord.Color.from_rgb(90, 25, 150)
+            color=discord.Color.from_rgb(217, 232, 74)
         )
 
-        embed.set_footer(text="TradeVault")
+        embed.set_footer(text="LUCK's MM")
 
         await message.channel.send(embed=embed)
 
@@ -5084,7 +5086,7 @@ async def mmfee(ctx):
 # $MMINFO
 # ============================================================
 
-MMINFO_BANNER = "https://discord.com/channels/1400471141054808154/1547444944606593066/1547901646510497842"
+MMINFO_BANNER = "https://cdn.discordapp.com/attachments/1547444944606593066/1547901646124617738/7BD29FDC-5A64-44CD-8E01-8C0A3A1A0C71.png?ex=6aa51b3f&is=6aa3c9bf&hm=53a647a875bb5fe199a1132bbaea72c2d2207ee4cec65bc5c3ed8f474bffb856&"
 
 
 class MMInfoView(discord.ui.View):
@@ -5105,7 +5107,6 @@ class MMInfoView(discord.ui.View):
         await interaction.response.send_message(
             f"✅ {interaction.user.mention} has confirmed that they "
             "**understand how the middleman process works.**",
-            ephemeral=True
         )
 
 
