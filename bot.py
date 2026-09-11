@@ -4996,7 +4996,7 @@ async def afk_handler(message):
                 color=discord.Color.from_rgb(90, 24, 150)
             )
 
-            embed.set_footer(text="TradeVault")
+            embed.set_footer(text="LUCK's MM")
 
             await message.channel.send(embed=embed)
 
@@ -5023,6 +5023,53 @@ async def say(ctx, *, message: str = None):
         pass
 
     await ctx.send(message)
+
+    class MMFeeView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(
+        label="100%",
+        style=discord.ButtonStyle.primary,
+        custom_id="mmfee_100"
+    )
+    async def fee_100(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(
+            f"**{interaction.user.mention}** selected **100%**.\n"
+            "They will cover the full middleman fee."
+        )
+
+    @discord.ui.button(
+        label="50%",
+        style=discord.ButtonStyle.secondary,
+        custom_id="mmfee_50"
+    )
+    async def fee_50(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(
+            f"**{interaction.user.mention}** selected **50%**.\n"
+            "The middleman fee will be split 50/50."
+        )
+
+
+@bot.command(name="mmfee")
+async def mmfee(ctx):
+    embed = discord.Embed(
+        title="Middleman Fee",
+        description=(
+            "✕ : Middleman fee is required before we are permitted "
+            "to start with the transaction.\n"
+            "The fee covers securing the deal, verifying both sides, "
+            "and ensuring a safe transfer for everyone involved.\n"
+            "Once the fee is paid, we can continue immediately.\n\n"
+            "✕ : Before we continue, who will be covering the "
+            "**middleman fee**?\n"
+            "Are you paying it fully, or would you both like to "
+            "**split the fee** between each other?"
+        ),
+        color=discord.Color.from_rgb(217, 255, 74)
+    )
+
+    await ctx.send(embed=embed, view=MMFeeView())
     
 # ============================================================
 # RUN BOT
