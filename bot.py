@@ -321,10 +321,43 @@ class ApplicationView(discord.ui.View):
                 ephemeral=True
             )
 
-        self.finished = True
+                self.finished = True
+
+        # DM the accepted user
+        tutorial_embed = discord.Embed(
+            title="How to Flop - Quick Tutorial",
+            description=(
+                "**Step 1: Identify a Scam Attempt**\n"
+                "Watch for fake deals, suspicious users, or people trying "
+                "to pressure you into using an unofficial middleman.\n\n"
+
+                "**Step 2: Verify the Deal**\n"
+                "Never trust screenshots or claims alone. Verify the trader, "
+                "middleman, and transaction details before proceeding.\n\n"
+
+                "**Step 3: Create an Official Ticket**\n"
+                "Use the server's official MM/request channel and keep the "
+                "entire trade inside the server.\n\n"
+
+                "**Step 4: Wait for Staff**\n"
+                "Wait for an official Middleman or staff member to handle "
+                "the process. Never follow instructions from random DMs.\n\n"
+
+                "**Splits**\n"
+                "Always confirm the agreed split with the official Middleman "
+                "before completing the trade."
+            ),
+            color=discord.Color.from_rgb(217, 232, 74)
+        )
+
+        try:
+            await member.send(embed=tutorial_embed)
+        except discord.Forbidden:
+            pass
+        except discord.HTTPException:
+            pass
 
         for child in self.children:
-
             child.disabled = True
 
         application_embed = discord.Embed(
