@@ -4442,8 +4442,8 @@ async def help_command(ctx):
             "`$add @user / ID` — Add member to ticket\n"
             "`$close` — Save transcript and close ticket\n"
             "`$transferroles @user` — Transfer roles"
-            "`$mminfo - shows how middleman works"
-            "`$mmfee - shows fee embed"
+            "`$mminfo` - shows how middleman works"
+            "`$mmfee` - shows fee embed"
         ),
         inline=False
     )
