@@ -61,7 +61,7 @@ MIDDLEMAN_ROLE_ID = 1546891552507564032
 APPLICATION_ROLE_ID = 1546891150177206373
 RESULT_CHANNEL_ID = 1547444944606593066
 
-PINK = discord.Color.from_rgb(255, 105, 180)
+PINK = discord.Color.from_rgb(217, 232, 74)
 
 
 # ============================================================
@@ -373,7 +373,7 @@ class ApplicationView(discord.ui.View):
                 "• Lastly to get a middleman for your trades "
                 "do a ticket in the middleman channel"
             ),
-            color=discord.Color.from_rgb(150, 0, 0)
+            color=discord.Color.from_rgb(217, 232, 74)
         )
 
         welcome_embed.set_thumbnail(
@@ -381,7 +381,7 @@ class ApplicationView(discord.ui.View):
         )
 
         welcome_embed.set_footer(
-            text="MM2 Hub • New Flopper"
+            text="LUCK' MM • New Flopper"
         )
 
         await result_channel.send(
@@ -452,7 +452,7 @@ class ApplicationView(discord.ui.View):
         )
 
         embed.set_footer(
-            text="TradeVault • Application System"
+            text="LUCK's MM • Application System"
         )
 
         await interaction.response.edit_message(
@@ -520,7 +520,7 @@ async def trigger(
             "or **Decline** the offer presented above. "
             "Choose wisely, the clock is ticking.."
         ),
-        color=discord.Color.from_rgb(150, 0, 0)
+        color=discord.Color.from_rgb(217, 232, 74)
     )
 
     view = ApplicationView(member.id)
@@ -622,9 +622,9 @@ async def addvouch(
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -739,9 +739,9 @@ async def removevouch(
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -827,9 +827,9 @@ async def vouches_command(
     embed = discord.Embed(
         title="⭐ Vouches",
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -1095,9 +1095,9 @@ async def profile(
     embed = discord.Embed(
         title=f"👤 User Profile • {member.display_name}",
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -1395,9 +1395,9 @@ async def roles_command(ctx):
             ),
             description=chunk,
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -1422,9 +1422,9 @@ async def serverinfo(ctx):
     embed = discord.Embed(
         title=f"🌐 {guild.name}",
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -1585,9 +1585,9 @@ async def temp(ctx):
             f"{member.mention} has been temporarily demoted."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -1758,9 +1758,9 @@ async def canceltemp(ctx):
             f"{member.mention}."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -2471,9 +2471,9 @@ async def claim(ctx):
                 f"{ctx.author.mention}."
             ),
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -2628,9 +2628,9 @@ async def unclaim(ctx):
                 "this ticket."
             ),
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -2820,9 +2820,9 @@ async def transferticket(
                 f"{member.mention}."
             ),
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -2985,9 +2985,9 @@ async def add_user(
                 "this ticket."
             ),
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -3122,9 +3122,9 @@ async def close_ticket(ctx):
                 "The channel will be deleted in **5 seconds**."
             ),
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -3369,9 +3369,9 @@ async def close_ticket(ctx):
                     f"**{channel_name}**."
                 ),
                 color=discord.Color.from_rgb(
-                    150,
-                    0,
-                    0
+                    217,
+                    232,
+                    74
                 ),
                 timestamp=datetime.datetime.now(
                     datetime.timezone.utc
@@ -3676,9 +3676,9 @@ async def transferroles(
             f"{source.mention} to {member.mention}."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -3742,7 +3742,7 @@ async def transferroles(
     )
 
     embed.set_footer(
-        text="Tradevault • Role Transfer"
+        text="LUCK's MM • Role Transfer"
     )
 
     await ctx.send(
@@ -4118,9 +4118,9 @@ async def dm_command(
         title="📩 Message from the Server",
         description=message,
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -4246,9 +4246,9 @@ async def massdm_command(
             title="📩 Message from the Server",
             description=message,
             color=discord.Color.from_rgb(
-                150,
-                0,
-                0
+                217,
+                232,
+                74
             )
         )
 
@@ -4367,9 +4367,9 @@ async def help_command(ctx):
             "by members with the required permissions."
         ),
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
@@ -4755,9 +4755,9 @@ async def snipe(ctx, number: int = 1):
     embed = discord.Embed(
         description=content,
         color=discord.Color.from_rgb(
-            150,
-            0,
-            0
+            217,
+            232,
+            74
         )
     )
 
