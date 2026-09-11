@@ -321,7 +321,7 @@ class ApplicationView(discord.ui.View):
                 ephemeral=True
             )
 
-                self.finished = True
+        self.finished = True
 
         # DM the accepted user
         tutorial_embed = discord.Embed(
