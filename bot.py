@@ -1694,8 +1694,8 @@ async def temp_error(ctx, error):
 async def canceltemp(ctx):
 
     allowed_role_ids = [
-        1544932566996615259,
-        1544932570226106418
+        1546891150177206373,
+        1461242044306685973
     ]
 
     has_temp_permission = any(
