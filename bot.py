@@ -1078,7 +1078,7 @@ async def demo(
 
     await ctx.send(
         f"⬇️ {member.mention} has been demoted to "
-        f"{next_role.mention}."
+        f"{next_role.name}."
     )
 
 
@@ -1664,7 +1664,7 @@ async def temp(ctx):
     )
 
     embed.set_footer(
-        text="Use $canceltemp to restore your saved roles"
+        text="Use $untemp to restore your saved roles"
     )
 
     await ctx.send(
