@@ -958,7 +958,7 @@ async def role_command(
         )
 
     await ctx.send(
-        f"✅ Added {role.mention} to {member.mention}."
+        f"✅ Added {role.name} to {member.mention}."
     )
 
 
