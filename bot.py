@@ -3580,7 +3580,6 @@ async def close_ticket_error(
 # ============================================================
 
 @bot.command(name="transferroles")
-@commands.has_permissions(manage_roles=True)
 async def transferroles(
     ctx,
     target
@@ -4129,146 +4128,139 @@ async def restore_command(ctx):
 
 @bot.command(name="dm")
 @commands.has_permissions(manage_messages=True)
-async def dm_command(
-    ctx,
-    member: discord.Member,
-    *,
-    message: str
-):
-
-    if member.bot:
-
-        return await ctx.send(
-            "❌ You cannot DM a bot."
-        )
+async def dm_command(ctx, target: str, *, message: str):
 
     if not message.strip():
-
         return await ctx.send(
-            "❌ Usage: `$dm @user message`"
+            "❌ Usage: `$dm @user/user_id message`"
         )
 
-    embed = discord.Embed(
-        title="📩 Message from the Server",
-        description=message,
-        color=discord.Color.from_rgb(
-            217,
-            232,
-            74
-        )
-    )
-
-    embed.set_footer(
-        text=f"Sent from {ctx.guild.name}"
-    )
+    # Accept @mention or raw user ID
+    user_id = target.strip("<@!>")
 
     try:
-
-        await member.send(
-            embed=embed
+        user_id = int(user_id)
+    except ValueError:
+        return await ctx.send(
+            "❌ Please mention a valid user or provide a valid user ID."
         )
 
-    except discord.Forbidden:
+    try:
+        member = ctx.guild.get_member(user_id)
 
+        if member is None:
+            member = await bot.fetch_user(user_id)
+
+    except (discord.NotFound, discord.HTTPException):
+        return await ctx.send("❌ User not found.")
+
+    if member.bot:
+        return await ctx.send("❌ You cannot DM a bot.")
+
+    # Prevent actual Discord mentions/pings
+    safe_message = discord.utils.escape_mentions(message)
+
+    # Delete the command from the server
+    try:
+        await ctx.message.delete()
+    except discord.HTTPException:
+        pass
+
+    try:
+        # Plain text DM — no embed
+        await member.send(safe_message)
+
+    except discord.Forbidden:
         return await ctx.send(
-            f"❌ I couldn't DM {member.mention}. "
-            "Their DMs may be closed."
+            "❌ I couldn't DM that user. Their DMs may be closed."
         )
 
     except discord.HTTPException:
-
         return await ctx.send(
-            "❌ Discord returned an error while sending "
-            "the DM."
+            "❌ Discord returned an error while sending the DM."
         )
 
-    await ctx.send(
-        f"✅ DM sent to {member.mention}."
-    )
+    await ctx.send("✅ DM sent successfully.")
 
 
 @dm_command.error
-async def dm_command_error(
-    ctx,
-    error
-):
+async def dm_command_error(ctx, error):
 
-    if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
-
+    if isinstance(error, commands.MissingPermissions):
         return await ctx.send(
             "❌ You need the **Manage Messages** permission."
         )
 
-    if isinstance(
-        error,
-        commands.MissingRequiredArgument
-    ):
-
+    if isinstance(error, commands.MissingRequiredArgument):
         return await ctx.send(
-            "❌ Usage: `$dm @user message`"
-        )
-
-    if isinstance(
-        error,
-        commands.BadArgument
-    ):
-
-        return await ctx.send(
-            "❌ Please mention a valid member."
+            "❌ Usage: `$dm @user/user_id message`"
         )
 
 
 # ============================================================
-# $MASSDM @ROLE MESSAGE
+# $MASSDM @ROLE/ROLE_ID MESSAGE
+# Role members must have explicitly opted in to receive DMs.
 # ============================================================
 
 @bot.command(name="massdm")
 @commands.has_permissions(administrator=True)
-async def massdm_command(
-    ctx,
-    role: discord.Role,
-    *,
-    message: str
-):
+async def massdm_command(ctx, target: str, *, message: str):
+
+    if not message.strip():
+        return await ctx.send(
+            "❌ Usage: `$massdm @role/role_id message`"
+        )
+
+    # Accept role mention or raw role ID
+    role_id = target.strip("<@&>")
+
+    try:
+        role_id = int(role_id)
+    except ValueError:
+        return await ctx.send(
+            "❌ Please mention a valid role or provide a valid role ID."
+        )
+
+    role = ctx.guild.get_role(role_id)
+
+    if role is None:
+        return await ctx.send("❌ Role not found.")
 
     if role == ctx.guild.default_role:
-
         return await ctx.send(
-            "❌ You cannot mass DM the @everyone role."
+            "❌ You cannot use the @everyone role."
         )
 
     if role.managed:
-
         return await ctx.send(
             "❌ You cannot use a managed/integration role."
         )
 
-    if not message.strip():
+    # Prevent actual Discord mentions/pings
+    safe_message = discord.utils.escape_mentions(message)
 
-        return await ctx.send(
-            "❌ Usage: `$massdm @role message`"
-        )
-
+    # Only members who have the opt-in role
     members = [
         member
-        for member in ctx.guild.members
-        if role in member.roles
-        and not member.bot
+        for member in role.members
+        if not member.bot
     ]
 
     if not members:
-
         return await ctx.send(
-            f"❌ No members with {role.mention} were found."
+            "❌ No opted-in members were found."
         )
 
-    await ctx.send(
+    # Delete the command message
+    try:
+        await ctx.message.delete()
+    except discord.HTTPException:
+        pass
+
+    status = await ctx.send(
         f"📨 **Mass DM started.**\n"
-        f"🎭 Role: {role.mention}\n"
-        f"👥 Members with role: **{len(members)}**"
+        f"🎭 Opt-in role: {role.mention}\n"
+        f"👥 Recipients: **{len(members)}**"
     )
 
     success = 0
@@ -4276,110 +4268,71 @@ async def massdm_command(
 
     for member in members:
 
-        embed = discord.Embed(
-            title="📩 Message from the Server",
-            description=message,
-            color=discord.Color.from_rgb(
-                217,
-                232,
-                74
-            )
-        )
-
-        embed.set_footer(
-            text=f"Sent from {ctx.guild.name}"
-        )
-
         try:
-
-            await member.send(
-                embed=embed
-            )
-
+            # Plain text DM — no embed and no ping
+            await member.send(safe_message)
             success += 1
 
-        except (
-            discord.Forbidden,
-            discord.HTTPException
-        ):
-
+        except (discord.Forbidden, discord.HTTPException):
             failed += 1
 
-        await asyncio.sleep(1)
+        # Slow down sending to reduce rate-limit issues
+        await asyncio.sleep(2)
 
-    embed = discord.Embed(
+    result = discord.Embed(
         title="📨 Mass DM Finished",
         color=discord.Color.from_rgb(
-            90,
-            24,
-            150
+            217,
+            232,
+            74
         )
     )
 
-    embed.add_field(
-        name="🎭 Role",
+    result.add_field(
+        name="🎭 Opt-in Role",
         value=role.mention,
         inline=False
     )
 
-    embed.add_field(
-        name="👥 Members Found",
+    result.add_field(
+        name="👥 Recipients",
         value=f"**{len(members)}**",
         inline=True
     )
 
-    embed.add_field(
-        name="✅ DMs Sent",
+    result.add_field(
+        name="✅ Sent",
         value=f"**{success}**",
         inline=True
     )
 
-    embed.add_field(
-        name="❌ DMs Failed",
+    result.add_field(
+        name="❌ Failed",
         value=f"**{failed}**",
         inline=True
     )
 
-    embed.set_footer(
+    result.set_footer(
         text=f"Mass DM by {ctx.author.display_name}"
     )
 
-    await ctx.send(
-        embed=embed
+    await status.edit(
+        content=None,
+        embed=result
     )
 
 
 @massdm_command.error
-async def massdm_command_error(
-    ctx,
-    error
-):
+async def massdm_command_error(ctx, error):
 
-    if isinstance(
-        error,
-        commands.MissingPermissions
-    ):
-
+    if isinstance(error, commands.MissingPermissions):
         return await ctx.send(
             "❌ You need the **Administrator** permission."
         )
 
-    if isinstance(
-        error,
-        commands.MissingRequiredArgument
-    ):
-
+    if isinstance(error, commands.MissingRequiredArgument):
         return await ctx.send(
-            "❌ Usage: `$massdm @role message`"
-        )
-
-    if isinstance(
-        error,
-        commands.BadArgument
-    ):
-
-        return await ctx.send(
-            "❌ Please mention a valid role."
+            "❌ Usage: `$massdm @role/role_id message`"
         )
 
 
