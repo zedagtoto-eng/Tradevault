@@ -4939,7 +4939,7 @@ async def afk(ctx, *, reason: str = "AFK"):
         color=discord.Color.from_rgb(217, 232, 74)
     )
 
-    embed.set_footer(text="Minstrea")
+    embed.set_footer(text="LUCK's MM")
 
     await ctx.send(embed=embed)
 
@@ -4982,10 +4982,10 @@ async def afk_handler(message):
                     f"📌 **Reason**\n"
                     f"{reason}"
                 ),
-                color=discord.Color.from_rgb(90, 24, 150)
+                color=discord.Color.from_rgb(217, 232, 74)
             )
 
-            embed.set_footer(text="TradeVault")
+            embed.set_footer(text="LUCK's MM")
 
             await message.channel.send(embed=embed)
 
